@@ -1,0 +1,10 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: hello-world
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+echos Hello, World!
+
