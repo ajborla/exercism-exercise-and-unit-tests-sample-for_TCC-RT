@@ -1,0 +1,10 @@
+@echo off
+
+:: ---------------------------------------------------------------------------
+:: TCC-RT Unit Test Runner [hello-world.btm]
+:: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+call TCCUNIT << "EOF"
+EOF
+
