@@ -24,8 +24,14 @@ gosub :EXIT %STATUS
 ::
 :RUNTEST [name cmpop expcode expvalue cut*]
    echo %name %cmpop %expcode %expvalue
-   echos %cut
+   gosub :TESTCUT %cut
    set RUNTEST=FAIL
+return
+
+:TESTCUT [cut*]
+   echos %cut
+   set RETVALUE=XXX
+   set RETCODE=1
 return
 
 :EXIT [code]
