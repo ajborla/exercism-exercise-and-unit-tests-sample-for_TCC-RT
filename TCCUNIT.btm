@@ -1,0 +1,32 @@
+@echo off
+
+:: ---------------------------------------------------------------------------
+:: TCC-RT Unit Test Worker
+:: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+::
+:: Perform tests
+::
+set STATUS=0
+do testargs in @CON:
+   gosub :RUNTEST %testargs
+   if %RUNTEST EQ FAIL set STATUS=1
+enddo
+
+::
+:: Ensure test status returned
+::
+gosub :EXIT %STATUS
+
+::
+:: Subroutines
+::
+:RUNTEST
+   set RUNTEST=FAIL
+return
+
+:EXIT [code]
+   quit %code
+return
+
