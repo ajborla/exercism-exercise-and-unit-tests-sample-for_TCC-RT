@@ -29,6 +29,7 @@ gosub :EXIT %STATUS
 return
 
 :EXIT [code]
+   unset RETCODE RETVALUE STATUS RUNTEST
    quit %code
 return
 
