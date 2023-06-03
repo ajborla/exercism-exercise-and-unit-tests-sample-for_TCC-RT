@@ -22,7 +22,9 @@ gosub :EXIT %STATUS
 ::
 :: Subroutines
 ::
-:RUNTEST
+:RUNTEST [name cmpop expcode expvalue cut*]
+   echo %name %cmpop %expcode %expvalue
+   echos %cut
    set RUNTEST=FAIL
 return
 
