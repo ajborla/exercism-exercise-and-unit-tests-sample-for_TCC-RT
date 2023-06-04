@@ -41,8 +41,10 @@ gosub :EXIT %STATUS
 return
 
 :TESTCUT [cut*]
-   echos %cut
-   set RETVALUE=XXX
+   echos @set RETVALUE=>RETVALUE.btm
+   call %cut >>RETVALUE.btm
+   call RETVALUE
+   del/q RETVALUE.btm 2> NUL:
    set RETCODE=1
 return
 
