@@ -41,11 +41,19 @@ gosub :EXIT %STATUS
 return
 
 :TESTCUT [cut*]
+   :: Capture return value
    echos @set RETVALUE=>RETVALUE.btm
    call %cut >>RETVALUE.btm
+   :: Suppress expansion of redirection and piping characters
+   setdos /X-56
    call RETVALUE
+   :: Restore expansions, and cleanup temporary file
+   setdos /X0
    del/q RETVALUE.btm 2> NUL:
-   set RETCODE=1
+
+   :: Capture return code
+   call %cut 1> NUL:
+   set RETCODE=%errorlevel
 return
 
 :EXIT [code]
