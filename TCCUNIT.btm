@@ -1,4 +1,4 @@
-@echo off
+@echo off & setlocal
 
 :: ---------------------------------------------------------------------------
 :: TCC-RT Unit Test Worker
@@ -57,7 +57,6 @@ return
 return
 
 :EXIT [code]
-   unset RETCODE RETVALUE STATUS RUNTEST
    quit %code
 return
 
