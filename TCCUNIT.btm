@@ -23,9 +23,21 @@ gosub :EXIT %STATUS
 :: Subroutines
 ::
 :RUNTEST [name cmpop expcode expvalue cut*]
-   echo %name %cmpop %expcode %expvalue
+   :: Execute code-under-test, collect results:
+   :: %RETVALUE
+   :: %RETCODE
    gosub :TESTCUT %cut
-   set RUNTEST=FAIL
+
+   :: Determine test status, and act accordingly
+   iff %@IF[%@QUOTE[%expvalue] %cmpop %@QUOTE[%RETVALUE],1,0] EQ 1 .AND. ^
+       %@IF[%expcode EQ %RETCODE,1,0] EQ 1 then
+      set RUNTEST=OK
+   else
+      set RUNTEST=FAIL
+   endiff
+
+   :: Print test outcome
+   echo %RUNTEST - %name
 return
 
 :TESTCUT [cut*]
