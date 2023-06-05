@@ -1,0 +1,11 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: error-handling
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+if %# EQ 1 (echos Hello, %@STRIP[^",%*]) ^
+else (echos USAGE: %@NAME[%0] person & quit 1)
+

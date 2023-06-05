@@ -1,0 +1,15 @@
+@echo off
+
+:: ---------------------------------------------------------------------------
+:: TCC-RT Unit Test Runner [error-handling.btm]
+:: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+call TCCUNIT << "EOF"
+"Correct arguments" EQ 0 "Hello, Alice" error-handling Alice
+"One long argument" EQ 0 "Hello, Alice and Bob" error-handling "Alice and Bob"
+"Incorrect arguments" EQ 1 "USAGE: error-handling person" error-handling Alice Bob
+"Print usage banner with no value given" EQ 1 "USAGE: error-handling person" error-handling
+"Empty argument" EQ 0 "Hello," error-handling ""
+EOF
+
