@@ -1,0 +1,24 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: darts
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Reject missing input
+if %# NE 2 (echos ERROR: Invalid arguments. USAGE: %@NAME[%0] x y & quit 1)
+
+:: Reject non-numeric input
+if %@DIGITS[%@STRIP[-.,%1]] EQ 0 .OR. %@DIGITS[%@STRIP[-.,%2]] EQ 0 ^
+   (echos ERROR: Only numeric values allowed. USAGE: %@NAME[%0] x y & quit 1)
+
+:: Compute radius (using simplified Distance Formula) and return score
+set radius=%@EVAL[(%1 * %1 + %2 * %2) ** 0.5]
+
+iff %radius LE 1.0 then echos 10
+elseiff %radius LE 5.0 then echos 5
+elseiff %radius LE 10.0 then echos 1
+else echos 0
+endiff
+
