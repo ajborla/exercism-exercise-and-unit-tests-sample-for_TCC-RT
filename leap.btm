@@ -1,0 +1,23 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: leap
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Reject missing input
+if %# NE 1 (echos ERROR: Invalid arguments. USAGE: %@NAME[%0] year & quit 1)
+
+:: Reject non-numeric, and non-positive, integer input
+if %@DIGITS[%1] EQ 0 .OR. %1 LT 1 ^
+   (echos ERROR: Only positive values allowed. USAGE: %@NAME[%0] year & quit 1)
+
+:: Return %1 leap year status
+if %@EVAL[%1 %% 400] EQ 0 (echos true & goto :EXIT)
+if %@EVAL[%1 %% 4] EQ 0 .AND. %@EVAL[%1 %% 100] NE 0 (echos true & goto :EXIT)
+echos false
+
+:: All done
+:EXIT
+
