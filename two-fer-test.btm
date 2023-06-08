@@ -1,0 +1,15 @@
+@echo off
+
+:: ---------------------------------------------------------------------------
+:: TCC-RT Unit Test Runner [two-fer.btm]
+:: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+call TCCUNIT << "EOF"
+"no name given" EQ 0 "One for you, one for me." two-fer
+"a name given" EQ 0 "One for Alice, one for me." two-fer Alice
+"another name given" EQ 0 "One for Bob, one for me." two-fer Bob
+"handle arg with spaces" EQ 0 "One for John Smith, one for me." two-fer "John Smith"
+"handle arg with glob char" EQ 0 "One for * , one for me." two-fer "* "
+EOF
+

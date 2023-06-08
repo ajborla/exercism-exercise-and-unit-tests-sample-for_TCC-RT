@@ -1,0 +1,11 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: two-fer
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+if %# LT 1 (echos One for you, one for me.) ^
+else (echos One for %@STRIP[^",%*], one for me.)
+
