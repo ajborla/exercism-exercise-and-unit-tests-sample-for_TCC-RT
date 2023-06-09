@@ -1,0 +1,58 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: collatz-conjecture
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Reject missing input
+if %# NE 1 (echos ERROR: Invalid arguments. USAGE: %@NAME[%0] n & quit 1)
+
+:: Reject non-numeric, and non-positive numeric input
+if %@DIGITS[%1] EQ 0 .OR. %1 LT 1 ^
+   (echos ERROR: Only positive numbers allowed. USAGE: %@NAME[%0] n & quit 1)
+
+:: Solve the conjecture
+gosub :COLLATZ_CONJECTURE %1
+
+:: Result returned by printing to STDOUT
+echos %COLLATZ_CONJECTURE
+
+:: All done
+goto :EXIT
+
+::
+:: Subroutines
+::
+:COLLATZ_CONJECTURE [value]
+   :: Arguments not modifiable, so always assign to different-name
+   ::  local variable.
+   set n=%value
+   set steps=0
+   do while %n NE 1
+      if %@EVAL[%n %% 2] EQ 0 (set n=%@EVAL[%n / 2]) ^
+      else (set n=%@EVAL[%n * 3 + 1])
+      set steps=%@INC[%steps]
+   enddo
+   set COLLATZ_CONJECTURE=%steps
+return
+
+::
+:: Recursive version fails for large values when it exceeds call nesting
+::  level limit. Call with:
+::
+::  gosub :COLLATZ_CONJECTURE %1 0
+::
+::  :COLLATZ_CONJECTURE [n steps]
+::     iff %N EQ 1 then
+::        set COLLATZ_CONJECTURE=%steps
+::     elseiff %@EVAL[%n %% 2] EQ 0 then
+::        gosub :COLLATZ_CONJECTURE %@EVAL[%n / 2] %@INC[%steps]
+::     else
+::        gosub :COLLATZ_CONJECTURE %@EVAL[%n * 3 + 1] %@INC[%steps]
+::     endiff
+::  return
+::
+
+:EXIT
