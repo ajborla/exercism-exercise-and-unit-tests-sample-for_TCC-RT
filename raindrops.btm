@@ -1,0 +1,18 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: raindrops
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Assume 0 value for missing, or non-digit, input
+if %# NE 1 .OR. %@ISDIGIT[%1] EQ 0 (echos 0 & quit 1)
+
+:: Determine sounds, and emit output
+if %@EVAL[%1 %% 3] EQ 0 (set sounds=Pling)
+if %@EVAL[%1 %% 5] EQ 0 (set sounds=%sounds%Plang)
+if %@EVAL[%1 %% 7] EQ 0 (set sounds=%sounds%Plong)
+
+if "%sounds%"=="" (echos %1) else (echos %sounds)
+
