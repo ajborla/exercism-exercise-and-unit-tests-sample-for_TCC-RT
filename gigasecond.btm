@@ -1,0 +1,36 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: gigasecond
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Reject missing input
+if %# NE 1 (echos ERROR: Invalid arguments. USAGE: %@NAME[%0] date & quit 1)
+
+:: Reject empty string input
+if %1 EQ "" .OR. %1 EQ '' ^
+   (echos ERROR: Invalid arguments. USAGE: %@NAME[%0] date & quit 1)
+
+:: Ensure conformance to the following format: yyyy-mm-ddThh:mm:ss
+set DTRX="([1][9][0-9][0-9]|[2-9][0-9][0-9][0-9])-([0][1-9]|[1][012])-([0][1-9]|[12][0-9]|[3][01])(T([0][0-9]|[1][0-9]|[2][0-3]):([0-5][0-9]):([0-5][0-9]))?"
+if %@REGEX[%DTRX,%1] NE 1 ^
+   (echos ERROR: Only ISO-8601 format allowed. USAGE: %@NAME[%0] date & quit 1)
+
+:: Transform conformant input timestamp to @MAKEAGE-conformant argument string
+iff %@LEN[%1] GT 10 then
+   set basedate=%@REPLACE[T,^,,%@STRIP[^",%1]]
+else
+   set basedate=%@REPLACE[T,^,,%@STRIP[^",%1T00:00:00]]
+endiff
+
+:: Convert timestamp to 'age' (equivalent to UNIX epoch * 10000000)
+set baseage=%@MAKEAGE[%basedate,4]
+
+:: Add gigasecond to 'age', convert back into ISO-8601 format
+set compage=%@EVAL[%baseage + 10000000000000000]
+set compdate=%@WORD[".",0,%@REPLACE[^,,T,%@AGEDATE[%compage,4]]]
+
+:: Emit computed timestamp
+echo %compdate

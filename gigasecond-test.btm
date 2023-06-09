@@ -1,0 +1,19 @@
+@echo off
+
+:: ---------------------------------------------------------------------------
+:: TCC-RT Unit Test Runner [gigasecond.btm]
+:: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+call TCCUNIT << "EOF"
+"Date only specificaion of time" EQ 0 2043-01-01T01:46:40 gigasecond 2011-04-25
+"Second test for date only specification of time" EQ 0 2009-02-19T01:46:40 gigasecond 1977-06-13
+"Third test for date only specification of time" EQ 0 1991-03-27T01:46:40 gigasecond 1959-07-19
+"Full time specified" EQ 0 2046-10-02T23:46:40 gigasecond 2015-01-24T22:00:00
+"Full time with day roll-over" EQ 0 2046-10-03T01:46:39 gigasecond 2015-01-24T23:59:59
+"No input should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: gigasecond date" gigasecond
+"Too many arguments should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: gigasecond date" gigasecond 5 7 23 153
+"Float number input should return an error" EQ 1 "ERROR: Only ISO-8601 format allowed. USAGE: gigasecond date" gigasecond 201.54
+"Alpha input should return an error" EQ 1 "ERROR: Only ISO-8601 format allowed. USAGE: gigasecond date" gigasecond "abcd"
+EOF
+
