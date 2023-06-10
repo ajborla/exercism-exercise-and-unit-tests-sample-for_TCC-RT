@@ -1,0 +1,26 @@
+@echo off
+
+:: ---------------------------------------------------------------------------
+:: TCC-RT Unit Test Runner [isogram.btm]
+:: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+call TCCUNIT << "EOF"
+"Empty string" EQ 0 true isogram ""
+"Isogram with only lower case characters" EQ 0 true isogram "isogram"
+"Word with one duplicated character" EQ 0 false isogram "eleven"
+"Word with one duplicated character from the end of the alphabet" EQ 0 false isogram "zzyzx"
+"Longest reported english isogram" EQ 0 true isogram "subdermatoglyphic"
+"Word with duplicated character in mixed case" EQ 0 false isogram "Alphabet"
+"Hypothetical isogrammic word with hyphen" EQ 0 true isogram "thumbscrew-japingly"
+"Isogram with duplicated hyphen" EQ 0 true isogram "six-year-old"
+"Hypothetical word with duplicated character following hyphen" EQ 0 false isogram "thumbscrew-jappingly"
+"Made-up name that is an isogram" EQ 0 true isogram "Emily Jung Schwartzkopf"
+"Duplicated character in the middle" EQ 0 false isogram "accentor"
+"Word with duplicated character in mixed case, lowercase first" EQ 0 false isogram "alphAbet"
+"Same first and last characters" EQ 0 false isogram "angola"
+"Word with duplicated character and with two hyphens" EQ 0 false isogram "up-to-date"
+"No input should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: isogram string" isogram
+"Too many arguments should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: isogram string" isogram 12 4562 4566
+EOF
+

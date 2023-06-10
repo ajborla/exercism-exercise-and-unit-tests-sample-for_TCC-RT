@@ -1,0 +1,30 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: isogram
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Reject missing input
+if %# NE 1 (echos ERROR: Invalid arguments. USAGE: %@NAME[%0] string & quit 1)
+
+:: Empty string input is considered an isogram
+if %1 EQ "" .OR. %1 EQ '' (echos true & goto :EXIT)
+
+:: Filter out all non-lowercase-alphabetic characters
+set input=%@FILTER[abcdefghijklmnopqrstuvwxyz,%@LOWER[%@STRIP[-,%1]]]
+
+:: Traverse input, bail if any character appears more than once
+::do n=0 to %@DEC[%@LEN[%input]] by 1
+::  if %@COUNT[%@INSTR[%n,1,%input],%input] GT 1 (echos false & goto :EXIT)
+::enddo
+
+do letter in /C %input
+  if %@COUNT[%letter,%input] GT 1 (echos false & goto :EXIT)
+enddo
+
+:: Input is isogram since each character appears once only
+echos true
+
+:EXIT
