@@ -1,0 +1,37 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: pangram
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Reject missing input
+if %# NE 1 (echos ERROR: Invalid arguments. USAGE: %@NAME[%0] string & quit 1)
+
+:: Empty string input is not a pangram
+if %1 EQ "" .OR. %1 EQ '' (echos false & goto :EXIT)
+
+:: Reference alphabet
+set alphabet=abcdefghijklmnopqrstuvwxyz
+
+:: Filter out all non-lowercase-alphabetic characters
+set input=%@FILTER[%alphabet,%@LOWER[%1]]
+
+:: Any string whose length is less than the number of characters in the
+::  English alphabet *CANNOT* be a pangram
+if %@LEN[%input] LT %@LEN[alphabet] (echos false & goto :EXIT)
+
+:: Traverse input, bail if any character does not appear
+::do n=0 to %@DEC[%@LEN[%alphabet]] by 1
+::  if %@COUNT[%@INSTR[%n,1,%alphabet],%input] LT 1 (echos false & goto :EXIT)
+::enddo
+
+do letter in /C %alphabet
+   if %@COUNT[%letter,%input] LT 1 (echos false & goto :EXIT)
+enddo
+
+:: Input is pangram since each character in the alphabet has been used
+echos true
+
+:EXIT

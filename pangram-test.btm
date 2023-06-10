@@ -1,0 +1,22 @@
+@echo off
+
+:: ---------------------------------------------------------------------------
+:: TCC-RT Unit Test Runner [pangram.btm]
+:: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+call TCCUNIT << "EOF"
+"Empty sentence" EQ 0 false pangram ""
+"Perfect lower case" EQ 0 true pangram "abcdefghijklmnopqrstuvwxyz"
+"Only lower case" EQ 0 true pangram "the quick brown fox jumps over the lazy dog"
+"Missing the letter 'x'" EQ 0 false pangram "a quick movement of the enemy will jeopardize five gunboats"
+"Missing the letter 'h'" EQ 0 false pangram "five boxing wizards jump quickly at it"
+"With underscores" EQ 0 true pangram "the_quick_brown_fox_jumps_over_the_lazy_dog"
+"With numbers" EQ 0 true pangram "the 1 quick brown fox jumps over the 2 lazy dogs"
+"Missing letters replaced by numbers" EQ 0 false pangram "7h3 qu1ck brown fox jumps ov3r 7h3 lazy dog"
+"Mixed case and punctuation" EQ 0 true pangram "\qFive quacking Zephyrs jolt my wax bed.\q"
+"A-M and a-m are 26 different characters but not a pangram" EQ 0 false pangram "abcdefghijklm ABCDEFGHIJKLM"
+"No input should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: pangram string" pangram
+"Too many arguments should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: pangram string" pangram 12 4562 4566
+EOF
+
