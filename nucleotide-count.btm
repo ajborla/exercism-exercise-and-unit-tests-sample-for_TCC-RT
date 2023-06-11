@@ -1,0 +1,21 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: nucleotide-count
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Reject missing input
+if %# NE 1 (echos ERROR: Invalid arguments. USAGE: %@NAME[%0] strand & quit 1)
+
+:: Return zero counts on empty string
+if %1 EQ "" .OR. %1 EQ '' (echos A: 0 C: 0 G: 0 T: 0 & quit 0)
+
+:: Reject invalid (non-nucleotide) characters
+if %@LEN[%@STRIP[^"ACGT,%1]] GT 0 ^
+   (echos ERROR: Invalid nucleotide detected. USAGE: %@NAME[%0] strand & quit 1)
+
+:: Count the nucleotides
+echos A: %@COUNT[A,%1] C: %@COUNT[C,%1] G: %@COUNT[G,%1] T: %@COUNT[T,%1]
+

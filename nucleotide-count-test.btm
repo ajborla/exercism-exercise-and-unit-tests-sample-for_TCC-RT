@@ -1,0 +1,17 @@
+@echo off
+
+:: ---------------------------------------------------------------------------
+:: TCC-RT Unit Test Runner [nucleotide-count.btm]
+:: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+call TCCUNIT << "EOF"
+"Empty strand" EQ 0 "A: 0 C: 0 G: 0 T: 0" nucleotide-count ""
+"Can count one nucleotide in single-character input" EQ 0 "A: 0 C: 0 G: 1 T: 0" nucleotide-count "G"
+"Strand with repeated nucleotide" EQ 0 "A: 0 C: 0 G: 7 T: 0" nucleotide-count "GGGGGGG"
+"Strand with multiple nucleotides" EQ 0 "A: 20 C: 12 G: 17 T: 21" nucleotide-count "AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC"
+"Strand with invalid nucleotides" EQ 1 "ERROR: Invalid nucleotide detected. USAGE: nucleotide-count strand" nucleotide-count "AGXXACT"
+"No input should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: nucleotide-count strand" nucleotide-count
+"Too many arguments should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: nucleotide-count strand" nucleotide-count 12 4562 4566
+EOF
+
