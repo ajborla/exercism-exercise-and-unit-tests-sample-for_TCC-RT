@@ -1,0 +1,35 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: rna-transcription
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Missing input considered as an empty strand
+if %# LT 1 (echos "" & quit 0)
+
+:: Reject incorrect arguments
+if %# NE 1 (echos ERROR: Invalid arguments. USAGE: %@NAME[%0] strand & quit 1)
+
+:: Empty string input returned unprocessed
+if %1 EQ "" .OR. %1 EQ '' (echos %1 & quit 0)
+
+:: Reject invalid (non-nucleotide) characters
+if %@LEN[%@STRIP[^"ACGT,%1]] GT 0 ^
+   (echos ERROR: Invalid nucleotide detected. USAGE: %@NAME[%0] strand & quit 1)
+
+:: Perform conversion by traversing strand L2R
+do nucleotide in /C %1
+   switch %nucleotide
+      case A
+         echos U
+      case C
+         echos G
+      case G
+         echos C
+      case T
+         echos A
+   endswitch
+enddo
+
