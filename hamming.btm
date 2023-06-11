@@ -1,0 +1,38 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: hamming
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Reject missing input
+iff %# NE 2 then
+   echos ERROR: Invalid arguments. USAGE: %@NAME[%0] strand1 strand2
+   quit 1
+endiff
+
+:: Determine if input(s) are empty
+set s1_is_empty=%@IF[%1 EQ "" .OR. %1 EQ '',1,0]
+set s2_is_empty=%@IF[%2 EQ "" .OR. %2 EQ '',1,0]
+
+:: If both inputs empty, hamming distance is zero
+if %s1_is_empty EQ 1 .AND. %s2_is_empty EQ 1 (echos 0 & quit 0)
+
+:: Proceed only if inputs of equal lengths
+iff %@LEN[%1] NE %@LEN[%2] then
+   echos ERROR: Strands should be of equal length.
+   echos  USAGE: %@NAME[%0] strand1 strand2
+   quit 1
+endiff
+
+:: Compute hamming distance by traversing strands L2R
+set distance=0
+
+do n=0 to %@DEC[%@LEN[%1]] by 1
+  if %@INSTR[%n,1,%1] NE %@INSTR[%n,1,%2] set distance=%@INC[%distance]
+enddo
+
+:: Emit Hamming Distance
+echos %distance
+

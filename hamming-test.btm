@@ -1,0 +1,20 @@
+@echo off
+
+:: ---------------------------------------------------------------------------
+:: TCC-RT Unit Test Runner [hamming.btm]
+:: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+call TCCUNIT << "EOF"
+"Empty strands" EQ 0 0 hamming "" ""
+"Single letter identical strands" EQ 0 0 hamming "A" "A"
+"Single letter different strands" EQ 0 1 hamming "G" "T"
+"Long identical strands" EQ 0 0 hamming "GGACTGAAATCTG" "GGACTGAAATCTG"
+"Long different strands" EQ 0 9 hamming "GGACGGATTCTG" "AGGACGGATTCT"
+"No input should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: hamming strand1 strand2" hamming
+"Too many arguments should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: hamming strand1 strand2" hamming 12 4562 4566
+"Too few arguments should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: hamming strand1 strand2" hamming 16
+"Unequal length strands (1) should return an error" EQ 1 "ERROR: Strands should be of equal length. USAGE: hamming strand1 strand2" hamming "" "G"
+"Unequal length strands (2) should return an error" EQ 1 "ERROR: Strands should be of equal length. USAGE: hamming strand1 strand2" hamming "G" ""
+EOF
+
