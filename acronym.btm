@@ -1,0 +1,23 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: acronym
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Reject missing input
+if %# NE 1 (echos ERROR: Invalid arguments. USAGE: %@NAME[%0] sentence & quit 1)
+
+:: Empty string input returned unprocessed
+if %1 EQ "" .OR. %1 EQ '' (echos %1 & quit 0)
+
+:: Sanitize input sentence
+set sentence=%@STRIP[^"^'^,_*,%1]
+set sentence=%@REPLACE[-, ,%sentence]
+
+:: Traverse input sentence, build acronym
+do word in /L %sentence
+   echos %@INSTR[0,1,%word]
+enddo
+

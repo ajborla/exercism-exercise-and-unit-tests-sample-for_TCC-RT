@@ -1,0 +1,23 @@
+@echo off
+
+:: ---------------------------------------------------------------------------
+:: TCC-RT Unit Test Runner [acronym.btm]
+:: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+call TCCUNIT << "EOF"
+"Basic" EQ 0 PNG acronym "Portable Network Graphics"
+"Lowercase words" EQ 0 ROR acronym "Ruby on Rails"
+"Punctuation" EQ 0 FIFO acronym "First In, First Out"
+"All caps word" EQ 0 GIMP acronym "GNU Image Manipulation Program"
+"Punctuation without whitespace" EQ 0 CMOS acronym "Complementary metal-oxide semiconductor"
+"Very long abbreviation" EQ 0 ROTFLSHTMDCOALM acronym "Rolling On The Floor Laughing So Hard That My Dogs Came Over And Licked Me"
+"Consecutive delimiters" EQ 0 SIMUFTA acronym "Something - I made up from thin air"
+"Apostrophes" EQ 0 HC acronym "Halley's Comet"
+"Underscore emphasis" EQ 0 TRNT acronym "The Road __Not__ Taken"
+"Contains shell globbing character" EQ 0 TW acronym "Two * Words"
+"Empty sentence returned" EQ 0 "" acronym ""
+"Missing sentence should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: acronym sentence" acronym
+"Too many arguments should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: acronym sentence" acronym 12 4562 4566
+EOF
+
