@@ -1,0 +1,55 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: scrabble-score
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Reject missing input
+if %# NE 1 (echos ERROR: Invalid arguments. USAGE: %@NAME[%0] letters & quit 1)
+
+:: Empty string input accepted but scores zero
+if %1 EQ "" .OR. %1 EQ '' (echos 0 & goto :EXIT)
+
+:: Lowercase all input
+set letters=%@LOWER[%@STRIP[^",%1]]
+
+:: Reverse leters, score each one, accumulate score total
+set total=0
+do letter in /C %letters
+   gosub :SCRABBLE_SCORE %letter
+   set total=%@EVAL[%total+%SCRABBLE_SCORE]
+enddo
+
+:: Emit total score
+echos %@TRIM[%total]
+
+:: All done !
+goto :EXIT
+
+::
+:: Subroutines
+::
+:SCRABBLE_SCORE [letter]
+   set score=0
+   switch %letter
+      case A .OR. E .OR. I .OR. O .OR. U .OR. L .OR. N .OR. R .OR. S .OR. T
+         set score=1
+      case D .OR. G
+         set score=2
+      case B .OR. C .OR. M .OR. P
+         set score=3
+      case F .OR. H .OR. V .OR. W .OR. Y
+         set score=4
+      case K
+         set score=5
+      case J .OR. X
+         set score=8
+      case Q .OR. Z
+         set score=10
+   endswitch
+   set SCRABBLE_SCORE=%score
+return
+
+:EXIT
