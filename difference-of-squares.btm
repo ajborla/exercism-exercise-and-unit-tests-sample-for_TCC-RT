@@ -1,0 +1,40 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: difference-of-squares
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Reject missing input
+if %# NE 2 (echos ERROR: Invalid arguments. & gosub :USAGE %0 & quit 1)
+
+:: Reject invalid command type
+iff %1 NE sum_of_squares .AND. %1 NE square_of_sum .AND. ^
+   %1 NE difference then ^
+   (echos ERROR: Invalid command. & gosub :USAGE %0 & quit 1)
+endiff
+
+:: Reject non-numeric, and non-positive numeric input
+if %@DIGITS[%2] EQ 0 .OR. %2 LT 1 ^
+   (echos ERROR: Only positive numbers allowed. & gosub :USAGE %0 & quit 1)
+
+:: Declare commands as functions
+function sum_of_squares=`%@EVAL[%1 * (%1 + 1) * (2 * %1 + 1) / 6]`
+function square_of_sum=`%@EVAL[(%1 * (%1 + 1) / 2) ** 2]`
+function difference=`%@EVAL[%@square_of_sum[%1] - %@sum_of_squares[%1]]`
+
+:: Perform requested command, return result on STDOUT
+echos %@EXECSTR[echos %%@%1[%2]]
+
+:: All done !
+goto :EXIT
+
+::
+:: Subroutines
+::
+:USAGE [btm]
+   echos  USAGE: %@NAME[%btm] sum_of_squares^|square_of_sum^|difference n
+return
+
+:EXIT
