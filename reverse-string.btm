@@ -1,0 +1,29 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: reverse-string
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Reject missing input
+if %# NE 1 (echos ERROR: Invalid arguments. USAGE: %@NAME[%0] string & quit 1)
+
+:: Empty string input returned unprocessed
+if %1 EQ "" .OR. %1 EQ '' (echos %1 & quit 0)
+
+:: Reverse input string by traversing R2L, and building a new string
+::  character-by-character. Note handling of SPACE character by first
+::  converting to underscore, then restoring to SPACE(s)
+set reverse=
+do n=%@DEC[%@LEN[%1]] to 0 by -1
+  iff %@ISSPACE[%@INSTR[%n,1,%1]] then
+     set reverse=%reverse%_
+  else
+     set reverse=%reverse%%@INSTR[%n,1,%1]%
+  endiff
+enddo
+
+:: Restore all SPACES
+echos %@REPLACE[_, ,%reverse%]
+

@@ -1,0 +1,18 @@
+@echo off
+
+:: ---------------------------------------------------------------------------
+:: TCC-RT Unit Test Runner [reverse-string.btm]
+:: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+call TCCUNIT << "EOF"
+"Empty string" EQ 0 "" reverse-string ""
+"A word" EQ 0 "tobor" reverse-string "robot"
+"A capitalised word" EQ 0 "nemaR" reverse-string "Ramen"
+"A sentence with punctuation" EQ 0 "!yrgnuh m'I" reverse-string "I'm hungry!"
+"A palindrome" EQ 0 "racecar" reverse-string "racecar"
+"An even-sized word" EQ 0 "reward" reverse-string "drawer"
+"Missing string should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: reverse-string string" reverse-string
+"Too many arguments should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: reverse-string string" reverse-string 12 4562 4566
+EOF
+
