@@ -1,0 +1,43 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: space-age
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Reject missing input
+if %# NE 2 (echos ERROR: Invalid arguments. USAGE: %@NAME[%0] planet seconds & quit 1)
+
+:: Reject non-numeric, and non-positive numeric input for age
+if %@DIGITS[%2] EQ 0 .OR. %2 LT 1 ^
+   (echos ERROR: Only positive numbers allowed. USAGE: %@NAME[%0] planet seconds & quit 1)
+
+:: Conversion constant
+set EARTH_YEAR_SECONDS=31557600
+
+:: Compute age in seconds for valid planets
+switch %1
+   case mercury
+      set age=%@EVAL[%2 / (%EARTH_YEAR_SECONDS * 0.2408467)]
+   case venus
+      set age=%@EVAL[%2 / (%EARTH_YEAR_SECONDS * 0.61519726)]
+   case earth
+      set age=%@EVAL[%2 / (%EARTH_YEAR_SECONDS * 1.0)]
+   case mars
+      set age=%@EVAL[%2 / (%EARTH_YEAR_SECONDS * 1.8808158)]
+   case jupiter
+      set age=%@EVAL[%2 / (%EARTH_YEAR_SECONDS * 11.862615)]
+   case saturn
+      set age=%@EVAL[%2 / (%EARTH_YEAR_SECONDS * 29.447498)]
+   case uranus
+      set age=%@EVAL[%2 / (%EARTH_YEAR_SECONDS * 84.016846)]
+   case neptune
+      set age=%@EVAL[%2 / (%EARTH_YEAR_SECONDS * 164.79132)]
+   default
+      (echos ERROR: Invalid planet name. USAGE: %@NAME[%0] planet seconds & quit 1)
+endswitch
+
+:: Echo result to STDOUT, SPACE-trimmed, and rounded to 2 decimal places
+echos %@TRIM[%@FORMATN[5.2,%age]]
+
