@@ -1,0 +1,41 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: roman-numerals
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Reject missing input
+if %# NE 1 (echos ERROR: Invalid arguments. USAGE: %@NAME[%0] n & quit 1)
+
+:: Reject non-integer input
+if %@DIGITS[%1] EQ 0 .OR. %1 LT 1 .OR. %1 GT 3999 ^
+   (echos ERROR: Only positive numbers (1 - 3999) allowed. USAGE: %@NAME[%0] n & quit 1)
+
+:: Convert `n`, a Hindu-Arabic numeral, to its equivalent Roman numeral form
+::  after transformg it into 4-digit-length, leading zero-padded value
+gosub :ARABIC_TO_ROMAN %@RIGHT[4,000%1]
+
+:: Emit output
+echos %ARABIC_TO_ROMAN
+
+:: All done
+goto :EXIT
+
+::
+:: Subroutines
+::
+:ARABIC_TO_ROMAN [n]
+   set m=%@INSTR[0,1,%n] & set m=%@WORD[%m,. M MM MMM]
+   set c=%@INSTR[1,1,%n] & set c=%@WORD[%c,. C CC CCC CD D DC DCC DCCC CM]
+   set x=%@INSTR[2,1,%n] & set x=%@WORD[%x,. X XX XXX XL L LX LXX LXXX XC]
+   set i=%@INSTR[3,1,%n] & set i=%@WORD[%i,. I II III IV V VI VII VIII IX]
+   set ARABIC_TO_ROMAN=%@STRIP[.,%m%%c%%x%%i%]
+return
+
+:ROMAN_TO_ARABIC [roman]
+   set ROMAN_TO_ARABIC=
+return
+
+:EXIT

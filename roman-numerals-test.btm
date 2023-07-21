@@ -1,0 +1,41 @@
+@echo off
+
+:: ---------------------------------------------------------------------------
+:: TCC-RT Unit Test Runner [roman-numerals.btm]
+:: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+call TCCUNIT << "EOF"
+"1 is a single I" EQ 0 I roman-numerals 1
+"2 is two I's" EQ 0 II roman-numerals 2
+"3 is three I's" EQ 0 III roman-numerals 3
+"4, being 5 - 1, is IV" EQ 0 IV roman-numerals 4
+"5 is a single V" EQ 0 V roman-numerals 5
+"6, being 5 + 1, is VI" EQ 0 VI roman-numerals 6
+"9, being 10 - 1, is IX" EQ 0 IX roman-numerals 9
+"20 is two X's" EQ 0 XXVII roman-numerals 27
+"48 is not 50 - 2 but rather 40 + 8" EQ 0 XLVIII roman-numerals 48
+"49 is not 40 + 5 + 4 but rather 50 - 10 + 10 - 1" EQ 0 XLIX roman-numerals 49
+"50 is a single L" EQ 0 LIX roman-numerals 59
+"90, being 100 - 10, is XC" EQ 0 XCIII roman-numerals 93
+"100 is a single C" EQ 0 CXLI roman-numerals 141
+"60, being 50 + 10, is LX" EQ 0 CLXIII roman-numerals 163
+"400, being 500 - 100, is CD" EQ 0 CDII roman-numerals 402
+"500 is a single D" EQ 0 DLXXV roman-numerals 575
+"900, being 1000 - 100, is CM" EQ 0 CMXI roman-numerals 911
+"1000 is a single M" EQ 0 MXXIV roman-numerals 1024
+"3000 is three M's" EQ 0 MMM roman-numerals 3000
+"16 is XVI" EQ 0 XVI roman-numerals 16
+"66 is LXVI" EQ 0 LXVI roman-numerals 66
+"166 is CLXVI" EQ 0 CLXVI roman-numerals 166
+"666 is DCLXVI" EQ 0 DCLXVI roman-numerals 666
+"1666 is MDCLXVI" EQ 0 MDCLXVI roman-numerals 1666
+"3999 is MMMCMXCIX" EQ 0 MMMCMXCIX roman-numerals 3999
+"4000 exceeds range" EQ 1 "ERROR: Only positive numbers (1 - 3999) allowed. USAGE: roman-numerals n" roman-numerals 4000
+"0 is below range" EQ 1 "ERROR: Only positive numbers (1 - 3999) allowed. USAGE: roman-numerals n" roman-numerals 0
+"No input should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: roman-numerals n" roman-numerals
+"Too many arguments should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: roman-numerals n" roman-numerals 5 7 23 153
+"Float number input should return an error" EQ 1 "ERROR: Only positive numbers (1 - 3999) allowed. USAGE: roman-numerals n" roman-numerals 201.54
+"Alpha input should return an error" EQ 1 "ERROR: Only positive numbers (1 - 3999) allowed. USAGE: roman-numerals n" roman-numerals "abcd"
+EOF
+
