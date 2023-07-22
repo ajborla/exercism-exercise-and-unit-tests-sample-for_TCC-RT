@@ -1,0 +1,45 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: armstrong-numbers
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Reject missing input
+if %# NE 1 (echos ERROR: Invalid arguments. USAGE: %@NAME[%0] n & quit 1)
+
+:: Reject non-integer input
+if %@DIGITS[%1] EQ 0 ^
+   (echos ERROR: Only integer values allowed. USAGE: %@NAME[%0] n & quit 1)
+
+:: Weed out obvious non-candidates
+iff %1 LT 0 then
+   echos false
+elseiff %1 LT 10 then
+   echos true
+elseiff %1 LT 100 then
+   echos false
+else
+   :: Compute sum of each digit of N rained to number of digits in N
+   gosub :SUM_OF_DIGITS_TO_POWER %1 %@LEN[%1]
+
+   :: Echo Armstrong Number status to STDOUT
+   if %SUM_OF_DIGITS_TO_POWER EQ %1 (echos true) else (echos false)
+endiff
+
+:: All done
+goto :EXIT
+
+::
+:: Subroutines
+::
+:SUM_OF_DIGITS_TO_POWER [n digits]
+   do digit in /C %n
+     set SUM_OF_DIGITS_TO_POWER=^
+        %@EVAL[(%digit ** %digits) + %SUM_OF_DIGITS_TO_POWER]
+   enddo
+   set SUM_OF_DIGITS_TO_POWER=%@TRIM[%SUM_OF_DIGITS_TO_POWER]
+return
+
+:EXIT
