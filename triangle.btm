@@ -1,0 +1,58 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: triangle
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Reject missing input
+if %# NE 4 (echos ERROR: Invalid arguments. & gosub :USAGE %0 & quit 1)
+
+:: Reject invalid triangle type
+if %1 NE equilateral .AND. %1 NE isosceles .AND. ^
+   %1 NE scalene ^
+   (echos ERROR: Invalid triangle type. & gosub :USAGE %0 & quit 1)
+
+:: Reject non-numeric triangle sides
+if %@DIGITS[%@STRIP[-.,%2]] EQ 0 .OR. %@DIGITS[%@STRIP[-.,%3]] EQ 0 .OR. ^
+   %@DIGITS[%@STRIP[-.,%4]] EQ 0 ^
+   (echos ERROR: Only numeric values allowed. & gosub :USAGE %0 & quit 1)
+
+:: Zero-valued triangle side(s) do not form a valid triangle
+if %2 EQ 0 .OR. %3 EQ 0 .OR. %4 EQ 0 ^
+   (echos false & quit 0)
+
+:: Check for non-degeneracy, and indicate it is not a valid triangle
+gosub :IS_NON_DEGENERATE %2 %3 %4
+if %IS_NON_DEGENERATE NE 1 ^
+   (echos false & quit 0)
+
+:: Check triangle sides' conformance to requested triangle type
+switch %1
+   case equilateral
+      echos %@IF[%2 EQ %3 .AND. %2 EQ %4,true,false]
+   case isosceles
+      echos %@IF[%2 EQ %3 .OR. %2 EQ %4 .OR. %3 EQ %4,true,false]
+   case scalene
+      echos %@IF[%2 NE %3 .AND. %2 NE %4 .AND. %3 NE %4,true,false]
+endswitch
+
+:: All done
+goto :EXIT
+
+::
+:: Subroutines
+::
+:IS_NON_DEGENERATE [A B C]
+   set IS_NON_DEGENERATE=^
+      %@IF[%@EVAL[(%A * 100) + (%B * 100) > (%C * 100)] EQ 1 .AND. ^
+           %@EVAL[(%A * 100) + (%C * 100) > (%B * 100)] EQ 1 .AND. ^
+           %@EVAL[(%B * 100) + (%C * 100) > (%A * 100)] EQ 1,1,0]
+return
+
+:USAGE [btm]
+   echos  USAGE: %@NAME[%btm] equilateral^|isosceles^|scalene A B C
+return
+
+:EXIT

@@ -1,0 +1,90 @@
+@echo off & setlocal
+
+:: ---------------------------------------------------------------------------
+:: exercism.io
+:: TCC-RT Track Exercise: triangle
+:: Contributed: Anthony J. Borla (ajborla@bigpond.com)
+:: ---------------------------------------------------------------------------
+
+:: Reject missing input
+if %# NE 4 goto :ERROR_INVALID_ARGUMENTS
+
+:: Reject invalid triangle type
+if %1 NE equilateral .AND. %1 NE isosceles .AND. ^
+   %1 NE scalene ^
+   goto :ERROR_INVALID_TRIANGLE_TYPE
+
+:: Reject non-numeric triangle sides
+if %@DIGITS[%2] EQ 0 .OR. %@DIGITS[%3] EQ 0 .OR. %@DIGITS[%4] EQ 0 ^
+   goto :ERROR_INVALID_TRIANGLE_SIDES
+
+:: Reject any zero-vaued triangle side
+if %2 EQ 0 .OR. %3 EQ 0 .OR. %4 EQ 0 ^
+   goto :ERROR_INVALID_TRIANGLE_SIDES
+
+:: Check for non-degeneracy, and reject degenerate triangle
+gosub :IS_NON_DEGENERATE %2 %3 %4
+if %? NE 1 ^
+   goto :ERROR_DEGENERATE_TRIANGLE
+
+:: Check triangle sides' conformance to requested triangle type
+switch %1
+   case equilateral
+      echos %@IF[%2 EQ %3 .AND. %2 EQ %4,true,false]
+   case isosceles
+      echos %@IF[%2 EQ %3 .OR. %2 EQ %4 .OR. %3 EQ %4,true,false]
+   case scalene
+      echos %@IF[%2 NE %3 .AND. %2 NE %4 .AND. %3 NE %4,true,false]
+endswitch
+
+:: All done
+goto :EXIT
+
+::
+:: Subroutines
+::
+:IS_NON_ZERO_SIDES [A B C]
+   seterror ^
+      %@IF[%A NE 0 .AND. %B NE 0 .AND. %C NE 0,1,0]
+::    %@IF[NOT !%A!==!0! .AND. NOT !%B!==!0! .AND. NOT !%C!==!0!,1,0]
+return
+
+:IS_NON_DEGENERATE [A B C]
+   seterror ^
+      %@EVAL[%A + %B > %C] EQ 1 .AND. %@EVAL[%A + %C > %B] EQ 1 .AND. ^
+      %@EVAL[%B + %C > %A]
+return
+
+:USAGE
+   echo USAGE: %0 ^<type^> ^<A^> ^<B^> ^<C^>
+   echo   where ^<type^> is one of equilateral, isosceles, scalene
+   echos   and each of ^<A^>, ^<B^>, and ^<C^> is a positive, integer value
+return
+
+::
+:: Handlers
+::
+:ERROR_INVALID_ARGUMENTS
+   echo ERROR: invalid arguments
+   gosub :USAGE
+   goto :ERROR
+
+:ERROR_INVALID_TRIANGLE_TYPE
+   echo ERROR: invalid triangle type
+   gosub :USAGE
+   goto :ERROR
+
+:ERROR_INVALID_TRIANGLE_SIDES
+   echo ERROR: invalid triangle side(s) [non-positive, or non-numeric value(s)]
+   gosub :USAGE
+   goto :ERROR
+
+:ERROR_DEGENERATE_TRIANGLE
+   echo ERROR: triangle side(s) form a degenerate triangle
+   gosub :USAGE
+   goto :ERROR
+
+:ERROR
+   quit 1
+
+:EXIT
