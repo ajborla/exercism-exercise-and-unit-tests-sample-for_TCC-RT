@@ -1,5 +1,5 @@
-# exercism-exercise-and-unit-test-sample-for_TCC-RT
-> Sample exercises, unit tests, and test framework, for proposed Exercism track, TCC-RT
+# exercism-exercise-and-unit-tests-sample-for_TCC-RT
+> Sample exercises, unit tests, and test library, for proposed Exercism track, TCC-RT
 
 |||
 | :---     | :--- |
