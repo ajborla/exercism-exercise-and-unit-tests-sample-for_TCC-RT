@@ -8,6 +8,8 @@
 | license: | MIT |
 
 ## Overview
+
+### Product / Language
 [_Take Command Console_](https://en.wikipedia.org/wiki/Take_Command_Console) (or [_TCC_](https://en.wikipedia.org/wiki/Take_Command_Console)), is a Windows-based command-line interpreter(CLI) that is upwardly compatible with the default CLI for that platform, [_CMD_](https://en.wikipedia.org/wiki/Cmd.exe), and intended as a more feature-rich replacement for it. It is proprietary software that is still actively developed, and marketed by, [_JP Software_](https://jpsoft.com/).
 
 In 2016 _JP Software_ made [_TCC-RT_](https://jpsoft.com/blogs/releases/tcc-rt-released.html), the _TCC_-Runtime, freely available, with the express intention of allowing end users to execute, **_royalty-free_**, non-interactive scripts:
@@ -24,8 +26,18 @@ The prime reference and learning resource for the language is the [TCC Reference
 
 An interesting resource (well worth exploring), actually for an older incarnation of _TCC_, is: [4DOS Info](https://4dos.info/).
 
+### Test Library
+The author was unable to source an _official_, let alone, _any_, unit test framework, therefore proceeded to implement a simple test library.
+
+The result is, `TCCUNIT.btm`, and comprises approximately 29 lines of code, spread over two subroutines.
+
+It is functional, insofar as it successfully tests all twenty one of the included exercises. Planned extensions (contingent on acceptance of _TCC-RT_ as an Exercism track) include:
+* Emit TAP-compliant output
+* Emit Exercism spec-compliant JSON output
+
 ## Installation
 ## Usage
+
 ## Acknowledgements
 The author frequently referred to, and adapted, the unit tests in the [Exercism Bash Track](https://exercism.org/tracks/bash). Many thanks to the authors of those tests for their work, particularly, the clarity of test names, and the addition of extra tests.
 
