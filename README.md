@@ -36,6 +36,42 @@ It is functional, insofar as it successfully tests all twenty one of the include
 * Emit Exercism spec-compliant JSON output
 
 ## Installation
+The unit test library, unit tests, and Exercism exercises, are all resident in the current repository, and require no installation.
+
+_TCC-RT_ is a proprietary Windows application (although previous incarnations have targeted older platforms like _DOS_ and _OS/2_). As such, there is no source code, nor ZIP file, available. It is solely installable by downloading the version-relevant installer file, and executing it, a painless, straightforward, and generally reliable process.
+
+Here is the official download page: [Take Command Downloads](https://jpsoft.com/all-downloads/all-downloads.html)
+
+Persusing this page reveals the availability of several products, as well as **all** versions of those products. To avoid confusion, the download of [TCC-RT 25.0](https://jpsoft.com/downloads/v25/tcc-rt.exe), the version used for testing the current repository, is recommended.
+
+The installer will have been placed into the downloads directory, generally `%HOMEDRIVE%%HOMEPATH%\Downloads`, although this may vary depending on your personal configuration. Regardless, `tcc-rt.exe` is the installer, and needs to be executed to effect installation.
+
+Once installed, the application is located in the `"%ProgramFiles%"\JPSoft\TCC_RT_25\` directory, and, if desired, may be added to the `PATH` environment variable.
+
+Assuming a _Command Prompt_ window has been opened, then a `Hello, World!` string appearing on the console after issuing the following command:
+
+```plain
+"%ProgramFiles%"\JPSoft\TCC_RT_25\tcc.exe /A /D /I /Q echo Hello, World!
+```
+
+or, if `PATH` has been updated:
+
+```plain
+tcc.exe /A /D /I /Q echo Hello, World!
+```
+
+is indicative of a successful installation.
+
+Despite _TCC-RT_ being a Windows application it should be possible to use it in a *NIX / Linux environment (real or emulated).
+
+It _has been_ tested under _Git for Windows_ (no additional installation or configuration required), where the equivalent to the earlier-issued command is:
+
+```plain
+/c/'Program Files'/JPSoft/TCC_RT_25/tcc.exe -A -D -I -Q echo Hello, World!
+```
+
+It should also be possible to execute it on a native *NIX / Linux using [Wine](https://www.winehq.org/). This capability, however, has not been tested.
+
 ## Usage
 
 ## Acknowledgements
