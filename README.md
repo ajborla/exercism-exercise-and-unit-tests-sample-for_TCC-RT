@@ -73,6 +73,55 @@ It _has been_ tested under _Git for Windows_ (no additional installation or conf
 It should also be possible to execute it on a native *NIX / Linux using [Wine](https://www.winehq.org/). This capability, however, has not been tested.
 
 ## Usage
+Assuming a _Command Prompt_ window has been opened,
+and that the current directory points to a clone of this repository, the unit tests for an exercise, for example, the `leap` exercise, may be effected by invoking the `leap-test` script, like so:
+
+```plain
+"%ProgramFiles%"\JPSoft\TCC_RT_25\tcc.exe /A /D /I /Q leap-test.btm
+```
+
+A successful execution will see generation of the following output:
+
+```plain
+OK - "Year not divisible by 4: common year"
+OK - "Year divisible by 2, not divisible by 4 in common year"
+OK - "Year divisible by 4, not divisible by 100: leap year"
+OK - "Year divisible by 4 and 5 is still a leap year"
+OK - "Year divisible by 100, not divisible by 400: common year"
+OK - "Year divisible by 100 but not by 3 is still not a leap year"
+OK - "Year divisible by 400: leap year"
+OK - "Year divisible by 400 but not by 125 is still a leap year"
+OK - "Year divisible by 200, not divisible by 400 in common year"
+OK - "No input should return an error"
+OK - "Too many arguments should return an error"
+OK - "Float number input should return an error"
+OK - "Alpha input should return an error"
+```
+
+Continuing the current example, `leap.btm`, is the exercise file, and `leap-test.btm` is the test file, both containing TCC language code. The latter is structured as follows:
+
+```plain
+@echo off
+call TCCUNIT << "EOF"
+"Year not divisible by 4: common year" EQ 0 false leap 2015
+"Year divisible by 2, not divisible by 4 in common year" EQ 0 false leap 1970
+"Year divisible by 4, not divisible by 100: leap year" EQ 0 true leap 1996
+"Year divisible by 4 and 5 is still a leap year" EQ 0 true leap 1960
+"Year divisible by 100, not divisible by 400: common year" EQ 0 false leap 2100
+"Year divisible by 100 but not by 3 is still not a leap year" EQ 0 false leap 1900
+"Year divisible by 400: leap year" EQ 0 true leap 2000
+"Year divisible by 400 but not by 125 is still a leap year" EQ 0 true leap 2400
+"Year divisible by 200, not divisible by 400 in common year" EQ 0 false leap 1800
+"No input should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: leap year" leap
+"Too many arguments should return an error" EQ 1 "ERROR: Invalid arguments. USAGE: leap year" leap 2016 4562 4566
+"Float number input should return an error" EQ 1 "ERROR: Only positive values allowed. USAGE: leap year" leap 2016.54
+"Alpha input should return an error" EQ 1 "ERROR: Only positive values allowed. USAGE: leap year" leap "abcd"
+EOF
+```
+
+It comprises a HEREDOC in which each line contains the test parameters of a unit test, and is fed to the `TCCUNIT.btm` script where each unit test is executed.
+
+Note that tests may be commented out (using **_#_** at the start of a HEREDOC line), modified, and new tests added. Note this character is not the language's comment delimiter (the double colon, **_::_**, serves this purpose), merely an arbitrary character chosen for convenience.
 
 ## Acknowledgements
 The author frequently referred to, and adapted, the unit tests in the [Exercism Bash Track](https://exercism.org/tracks/bash). Many thanks to the authors of those tests for their work, particularly, the clarity of test names, and the addition of extra tests.
